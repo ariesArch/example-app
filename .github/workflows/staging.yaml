@@ -5,6 +5,7 @@ on:
   pull_request:
     branches:
       - staging
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -19,35 +20,21 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-          # Clone or pull the repository
-          cd /var/www/project
-          if [ -d "project" ]; then
-            cd project
-            git pull origin main
-          else
-            git clone https://github.com/kyawyenaingdev/example-app project
-            cd project
-          fi
-          # Install dependencies
-          composer install --no-interaction --no-dev --prefer-dist
+            # Clone or pull the repository
+            if [ -d "/var/www/project" ]; then
+              cd /var/www/project
+              git pull origin staging
+            else
+              git clone https://github.com/kyawyenaingdev/example-app /var/www/project
+              cd /var/www/project
+              git checkout staging
+              git pull origin staging
+            fi
 
-          # Copy and configure the .env file
-          cp .env.example .env
-          sed -i "s/APP_ENV=.*/APP_ENV=production/" .env
-          sed -i "s/APP_DEBUG=.*/APP_DEBUG=false/" .env
+            # Rest of the deployment steps...
+            # Install dependencies
+            composer install --no-interaction --no-dev --prefer-dist
 
-          # Generate application key
-          php artisan key:generate
-
-          # Run migrations and seeders
-          php artisan migrate --force
-          php artisan db:seed --force
-
-          # Clear cache and optimize
-          php artisan cache:clear
-          php artisan config:cache
-          php artisan route:cache
-          php artisan view:cache
-
-          # Restart necessary services (example: Apache, Nginx, etc.)
-          sudo service apache2 restart
+            # Copy and configure the .env file
+            cp .env.example .env
+            sed
