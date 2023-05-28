@@ -1,41 +1,55 @@
-- name: Deploy to Server
-  uses: appleboy/ssh-action@master
-  with:
-    host: ${{ secrets.SERVER_IP }}
-    username: ${{ secrets.SERVER_USERNAME }}
-    key: ${{ secrets.SSH_PRIVATE_KEY }}
-    script: |
-      # Clone or pull the repository
-      #cd /path/to/your/laravel/project
-      #git pull origin main || git clone https://github.com/your-username/your-repo.git .
-      cd /var/www
-      if [ -d "project" ]; then
-        cd project
-        git pull origin main
-      else
-        git clone https://github.com/kyawyenaingdev/example-app project
-        cd project
-      fi
-      # Install dependencies
-      composer install --no-interaction --no-dev --prefer-dist
+on:
+  push:
+    branches:
+      - staging
+  pull_request:
+    branches:
+      - staging
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+      - name: Deploy to Server
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+      - name: Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+          # Clone or pull the repository
+          #cd /path/to/your/laravel/project
+          #git pull origin main || git clone https://github.com/your-username/your-repo.git .
+          cd /var/www
+          if [ -d "project" ]; then
+            cd project
+            git pull origin main
+          else
+            git clone https://github.com/kyawyenaingdev/example-app project
+            cd project
+          fi
+          # Install dependencies
+          composer install --no-interaction --no-dev --prefer-dist
 
-      # Copy and configure the .env file
-      cp .env.example .env
-      sed -i "s/APP_ENV=.*/APP_ENV=production/" .env
-      sed -i "s/APP_DEBUG=.*/APP_DEBUG=false/" .env
+          # Copy and configure the .env file
+          cp .env.example .env
+          sed -i "s/APP_ENV=.*/APP_ENV=production/" .env
+          sed -i "s/APP_DEBUG=.*/APP_DEBUG=false/" .env
 
-      # Generate application key
-      php artisan key:generate
+          # Generate application key
+          php artisan key:generate
 
-      # Run migrations and seeders
-      php artisan migrate --force
-      php artisan db:seed --force
+          # Run migrations and seeders
+          php artisan migrate --force
+          php artisan db:seed --force
 
-      # Clear cache and optimize
-      php artisan cache:clear
-      php artisan config:cache
-      php artisan route:cache
-      php artisan view:cache
+          # Clear cache and optimize
+          php artisan cache:clear
+          php artisan config:cache
+          php artisan route:cache
+          php artisan view:cache
 
-      # Restart necessary services (example: Apache, Nginx, etc.)
-      sudo service apache2 restart
+          # Restart necessary services (example: Apache, Nginx, etc.)
+          sudo service apache2 restart
