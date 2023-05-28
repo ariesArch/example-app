@@ -25,7 +25,7 @@ jobs:
               cd /var/www/project
               git pull origin staging
             else
-              git clone https://github.com/kyawyenaingdev/example-app /var/www/project
+              git clone git@github.com:kyawyenaingdev/example-app.git /var/www/project
               cd /var/www/project
               git checkout staging
               git pull origin staging
