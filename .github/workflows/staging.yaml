@@ -39,4 +39,21 @@ jobs:
 
             # Copy and configure the .env file
             cp .env.staging .env
-            sed
+            sed -i "s/APP_ENV=.*/APP_ENV=production/" .env
+            sed -i "s/APP_DEBUG=.*/APP_DEBUG=false/" .env
+
+            # Generate application key
+            php artisan key:generate
+
+            # Run migrations and seeders
+            php artisan migrate --force
+            php artisan db:seed --force
+
+            # Clear cache and optimize
+            php artisan cache:clear
+            php artisan config:cache
+            php artisan route:cache
+            php artisan view:cache
+
+            # Restart necessary services (example: Apache, Nginx, etc.)
+            sudo service apache2 restart
