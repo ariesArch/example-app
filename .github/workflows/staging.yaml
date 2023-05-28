@@ -13,10 +13,17 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.5.2
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
       - name: Deploy to Server
-          uses: webfactory/ssh-agent@v0.5.2
-          with:
-            ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USERNAME }}
           script: |
             # Clone or pull the repository
             if [ -d "/var/www/project" ]; then
@@ -34,7 +41,7 @@ jobs:
             composer install --no-interaction --no-dev --prefer-dist
 
             # Copy and configure the .env file
-            cp .env.staging .env
+            cp .env.example .env
             sed -i "s/APP_ENV=.*/APP_ENV=production/" .env
             sed -i "s/APP_DEBUG=.*/APP_DEBUG=false/" .env
 
