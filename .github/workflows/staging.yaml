@@ -1,3 +1,7 @@
+name: Deploy
+
+# Trigger the workflow on push and
+# pull request events on the production branch
 on:
   push:
     branches:
@@ -6,57 +10,18 @@ on:
     branches:
       - staging
 
+# Authenticate to the the server via ssh
+# and run our deployment script
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-
-      - name: Setup SSH
-        uses: webfactory/ssh-agent@v0.5.2
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-      - name: Deploy to Server
+      - uses: actions/checkout@v2
+      - name: Deploy to server
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.SERVER_IP }}
-          username: ${{ secrets.SERVER_USERNAME }}
-          script: |
-            # Clone or pull the repository
-            if [ -d "/var/www/project" ]; then
-              cd /var/www/project
-              git pull origin staging
-            else
-              git clone git@github.com:kyawyenaingdev/example-app.git /var/www/project
-              cd /var/www/project
-              git checkout staging
-              git pull origin staging
-            fi
-
-            # Rest of the deployment steps...
-            # Install dependencies
-            composer install --no-interaction --no-dev --prefer-dist
-
-            # Copy and configure the .env file
-            cp .env.example .env
-            sed -i "s/APP_ENV=.*/APP_ENV=production/" .env
-            sed -i "s/APP_DEBUG=.*/APP_DEBUG=false/" .env
-
-            # Generate application key
-            php artisan key:generate
-
-            # Run migrations and seeders
-            php artisan migrate --force
-            php artisan db:seed --force
-
-            # Clear cache and optimize
-            php artisan cache:clear
-            php artisan config:cache
-            php artisan route:cache
-            php artisan view:cache
-
-            # Restart necessary services (example: Apache, Nginx, etc.)
-            sudo service apache2 restart
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          port: ${{ secrets.PORT }}
+          key: ${{ secrets.SSHKEY }}
+          script: "cd /var/www/html && ./.scripts/deploy.sh"
