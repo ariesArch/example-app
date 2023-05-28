@@ -14,14 +14,17 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
       - name: Deploy to Server
-        uses: appleboy/ssh-action@master
-        with:
-          ssh_options: "-o ForwardAgent=yes"
-          host: ${{ secrets.SERVER_IP }}
-          username: ${{ secrets.SERVER_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          name: id_rsa
-          known_hosts: ${{ secrets.KNOWN_HOSTS }}
+        # uses: appleboy/ssh-action@master
+        # with:
+        #   ssh_options: "-o ForwardAgent=yes"
+        #   host: ${{ secrets.SERVER_IP }}
+        #   username: ${{ secrets.SERVER_USERNAME }}
+        #   key: ${{ secrets.SSH_PRIVATE_KEY }}
+        #   name: id_rsa
+        #   known_hosts: ${{ secrets.KNOWN_HOSTS }}
+          uses: webfactory/ssh-agent@v0.5.2
+          with:
+            ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             # Clone or pull the repository
             if [ -d "/var/www/project" ]; then
