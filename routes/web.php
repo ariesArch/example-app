@@ -16,7 +16,5 @@ use Filament\FilamentManager;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::redirect('/', '/admin/login', 301)->name('login');
 Route::resource('/community_categories', CommunityCategoryController::class)->name('*', 'community_categories');
