@@ -109,9 +109,6 @@ class PageResource extends Resource
             ProfileRelationManager::class,
             SocietyRelationManager::class
         ];
-        // if (parent::teaching_classes()->exists()) {
-        //     $relations[TeachingClassesRelationManager::class] = TeachingClassesRelationManager::make();
-        // }
         return $relations;
     }
 
