@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 use App\Filament\Resources\CityResource;
+use App\Filament\Resources\ClassCategoryResource;
 use App\Filament\Resources\PageResource;
 use App\Filament\Resources\UserResource;
 use Filament\Navigation\NavigationGroup;
@@ -14,6 +15,7 @@ use Filament\Navigation\NavigationBuilder;
 use App\Filament\Resources\TownshipResource;
 use App\Filament\Resources\CommunityResource;
 use App\Filament\Resources\CommunityCategoryResource;
+use App\Filament\Resources\ProductCategoryResource;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -56,6 +58,14 @@ class AppServiceProvider extends ServiceProvider
                             ...UserResource::getNavigationItems(),
                             ...PageResource::getNavigationItems(),
                         ]),
+                    NavigationGroup::make('Merchandise')
+                        ->items([
+                            ...ProductCategoryResource::getNavigationItems(),
+                        ]),
+                    NavigationGroup::make('Classes')
+                        ->items([
+                            ...ClassCategoryResource::getNavigationItems(),
+                        ])
                 ]);
         });
     }
