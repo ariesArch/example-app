@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Database\Seeders\AttributeSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,6 +23,14 @@ class DatabaseSeeder extends Seeder
             AdminSeeder::class,
             CitySeeder::class,
             TownshipSeeder::class,
+            CommunityCategorySeeder::class,
+            CommunitySeeder::class,
+            PageSeeder::class,
+            AttributeSeeder::class,
+            AttributeValueSeeder::class,
+            ProductSeeder::class,
+            ProductAttributeValueSeeder::class,
+            VariationSeeder::class
         ]);
     }
 }

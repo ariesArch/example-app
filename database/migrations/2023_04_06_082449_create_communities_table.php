@@ -16,11 +16,11 @@ return new class extends Migration
             $table->foreignId('community_category_id')->constrained();
             $table->string('name')->unique();
             $table->string('slug')->unique();
-            $table->string('image_url');
+            $table->string('image_url')->nullable();
             $table->string('image_name')->nullable();
             $table->string('image_type')->nullable();
             $table->string('image_size')->nullable();
-            $table->dateTime('image_uploaded_at');
+            $table->dateTime('image_uploaded_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
