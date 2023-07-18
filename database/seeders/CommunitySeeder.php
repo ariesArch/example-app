@@ -14,7 +14,8 @@ class CommunitySeeder extends Seeder
     public function run(): void
     {
         $data = [
-            ['name' => 'Shopping', 'slug' => 'shopping','community_category_id'=>1]
+            ['name' => 'Shopping', 'slug' => 'shopping','community_category_id'=>1],
+            ['name' => 'Learning', 'slug' => 'learning','community_category_id'=>2]
         ];
         foreach ($data as $result) {
             Community::create($result);

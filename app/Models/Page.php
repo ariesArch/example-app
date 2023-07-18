@@ -33,4 +33,7 @@ class Page extends Authenticatable
     {
         return $this->hasMany(TeachingClass::class);
     }
+    public function products() {
+        return $this->hasMany(Product::class);
+    }
 }

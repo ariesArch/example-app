@@ -21,6 +21,7 @@ use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\Placeholder;
 use App\Filament\Resources\PageResource\Pages;
+use App\Filament\Resources\PageResource\RelationManagers\ProductsRelationManager;
 use Filament\Forms\Components\BelongsToSelect;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\PageResource\RelationManagers\ProfileRelationManager;
@@ -107,7 +108,8 @@ class PageResource extends Resource
     {
         $relations =  [
             ProfileRelationManager::class,
-            SocietyRelationManager::class
+            SocietyRelationManager::class,
+            ProductsRelationManager::class
         ];
         return $relations;
     }

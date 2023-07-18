@@ -1,5 +1,5 @@
 INSERT INTO `products` (`id`, `name`, `slug`, `description`, 
-`product_category_id`, `price`, `page_id`, 
+`product_group_id`, `price`, `page_id`, 
 `sale_price`, `sku`, `quantity`, `in_stock`, `is_taxable`, 
 `status`, `product_type`, `unit`, `height`, `width`, `length`, 
 `image`, 

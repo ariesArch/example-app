@@ -50,7 +50,8 @@ class SocietyRelationManager extends RelationManager
                                     ->where('sociable_type', 'App\Models\Page')
                                     ->where('sociable_id', $pageId)
                                     ->distinct();
-                            })->get()->pluck(value: 'name', key: 'id')->toArray();
+                            })
+                            ->get()->pluck(value: 'name', key: 'id')->toArray();
                     })
                     ->required(),
             ]);

@@ -14,7 +14,8 @@ class CommunityCategorySeeder extends Seeder
     public function run(): void
     {
         $data = [
-            ['name'=>'Shopping','slug'=>'shopping']
+            ['name'=>'Shopping','slug'=>'shopping'],
+            ['name'=>'Learning','slug'=>'learning']
         ];
         foreach($data as $result) {
             CommunityCategory::create($result);

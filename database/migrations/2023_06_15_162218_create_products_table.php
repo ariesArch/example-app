@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('slug');
             $table->text('description')->nullable();
             $table->foreignId('page_id')->nullable()->constrained();
-            $table->foreignId('product_category_id')->nullable()->constrained();
+            $table->foreignId('product_group_id')->nullable()->constrained();
             $table->float('price')->nullable()->default(0);
             $table->float('sale_price')->nullable();
             $table->float('max_price')->nullable();

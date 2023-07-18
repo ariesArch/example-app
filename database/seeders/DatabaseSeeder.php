@@ -25,6 +25,8 @@ class DatabaseSeeder extends Seeder
             TownshipSeeder::class,
             CommunityCategorySeeder::class,
             CommunitySeeder::class,
+            ProductGroupSeeder::class,
+            ProductCategorySeeder::class,
             PageSeeder::class,
             AttributeSeeder::class,
             AttributeValueSeeder::class,

@@ -2,18 +2,17 @@
 
 namespace Database\Seeders;
 
-use App\Models\ProductCategory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class ProductCategorySeeder extends Seeder
+class ProductGroupSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        $data = public_path('sql/product_categories.sql');
+        $data = public_path('sql/product_groups.sql');
         $content = file_get_contents($data);
         \DB::statement($content);
     }
