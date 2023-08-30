@@ -24,4 +24,4 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           port: ${{ secrets.PORT }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: "eval "$(ssh-agent -s)" && ssh-add ~/.ssh/exampleapp_github-actions && cd /var/www/example-app/ && chmod +x .scripts/deploy.sh &&  .scripts/deploy.sh"
+          script: "eval '$(ssh-agent -s)' && ssh-add ~/.ssh/exampleapp_github-actions && cd /var/www/example-app/ && chmod +x .scripts/deploy.sh &&  .scripts/deploy.sh"
