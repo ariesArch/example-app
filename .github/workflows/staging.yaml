@@ -29,4 +29,4 @@ jobs:
             ssh-add ~/.ssh/exampleapp_github-actions
             cd /var/www/example-app/
             chmod +x .scripts/deploy.sh
-            .scripts/deploy.sh"
+            .scripts/deploy.sh
