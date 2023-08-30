@@ -24,4 +24,4 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           port: ${{ secrets.PORT }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: "cd /var/www/example-app/ && .scripts/deploy.sh"
+          script: "cd /var/www/example-app/ && chmod +x .scripts/deploy.sh &&  .scripts/deploy.sh"
