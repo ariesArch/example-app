@@ -1,54 +1,39 @@
-    version: "3.8"
-    services:
-        # Database Service
-        database:
-            image: mysql:8.0
-            ports:
-                - 3308:3306
-            container_name: mysql
-            environment:
-                - MYSQL_DATABASE=${DB_DATABASE}
-                - MYSQL_ROOT_PASSWORD= 
-                - MYSQL_ALLOW_EMPTY_PASSWORD=1
-            volumes:
-                - db-data:/lib/mysql
-            networks:
-                - laravel
-        # Redis Service
-        redis:
-            image: redis:alpine
-            command: redis-server --appendonly yes --requirepass  "${REDIS_PASSWORD}"
-            ports:
-                - 6379:6379
-            networks:
-                - laravel
-        # PHP Service
-        php:
-            build: 
-                context: .
-                target: php
-                args:
+version: "3.8"
+services:
+    api:
+        container_name: api
+        build:
+            context: .
+            target: php
+            args:
                 - APP_ENV=${APP_ENV}
-            environment:
-                - APP_ENV=${APP_ENV}
-                - CONTAINER_ROLE=app
-            working_dir: /var/www
-            volumes:
-                - ./:/var/www
-            ports:
-                - 8000:8000
-            # command: ["./docker/wait-for-it.sh", "database:3308", "--timeout=30"]
-            depends_on:
-                - database
-                - redis
-            networks:
-                - laravel
-
-    volumes:
-        db-data: ~
-
-    # networks:
-    #   laravel:
-    #     driver: bridge
-    networks:
-        laravel:
+        environment:
+            - APP_ENV=${APP_ENV}
+        working_dir: /var/www
+        volumes:
+            - ./:/var/www
+        ports:
+            - 9000:8080
+        depends_on:
+            - database
+            - redis
+    database:
+        container_name: database
+        image: mysql:8.0
+        ports:
+            -   3307:3306
+        environment:
+            - MYSQL_DATABASE=default
+            - MYSQL_USER=laravel
+            - MYSQL_PASSWORD=secret
+            - MYSQL_ROOT_PASSWORD=secret
+        volumes:
+            - db-data:/var/lib/mysql
+    redis:
+        container_name:  redis
+        image: redis:alpine
+        command: redis-server --appendonly yes --requirepass  "secret"
+        ports:
+            - 6380:6379
+volumes:
+    db-data: ~
