@@ -28,7 +28,7 @@ jobs:
             eval "$(ssh-agent -s)"
             ssh-add ~/.ssh/exampleapp_github-actions
             cd /var/www/example-app/
-            chmod +x .scripts/deploy.sh
-            chmod -R 755 storage
-            chmod -R 755 bootstrap
+            sudo chmod +x .scripts/deploy.sh
+            sudo chmod -R 775 storage
+            sudo chmod -R 775 bootstrap/cache
             .scripts/deploy.sh
