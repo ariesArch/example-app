@@ -36,4 +36,4 @@ jobs:
             sudo chmod +x .scripts/deploy.sh
             sudo chgrp -R www-data storage bootstrap/cache
             sudo chmod -R ug+rwx storage bootstrap/cache
-            .scripts/deploy.sh
+            .scripts/deploy.sh "${GITHUB_REF##*/}"
