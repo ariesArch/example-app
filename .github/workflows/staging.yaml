@@ -35,7 +35,17 @@ jobs:
             sudo find /var/www/example-app -type f -exec chmod 644 {} \;  
             sudo find /var/www/example-app -type d -exec chmod 755 {} \;
             cd /var/www/example-app/
-            sudo chmod +x .scripts/deploy.sh
             sudo chgrp -R www-data storage bootstrap/cache
             sudo chmod -R ug+rwx storage bootstrap/cache
-            .scripts/deploy.sh "$BRANCH_NAME"
+      - name: Start Deployment On Staging Branh 
+        run: 
+          (php artisan down) || true
+          git pull origin staging
+          if [ ! -f "vendor/autoload.php" ]; then
+            composer install --no-progress --no-interaction
+          fi
+          php artisan clear-compiled
+          php artisan optimize
+          php artisan migrate --force --env=staging --pretend
+          php artisan up
+          echo "Deployment finished!"
