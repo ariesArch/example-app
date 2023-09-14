@@ -14,6 +14,9 @@ services:
             - ./:/var/www
         ports:
             - 9000:8080
+            # This configuration maps port 8080 of the api service to port 9000 on the host machine. 
+            # Therefore, any traffic that reaches port 9000 on the host machine will be forwarded to port 8080 inside the api container.
+            # Port 8080 is where Nginx is listening for HTTP requests.
         depends_on:
             - database
             - redis
