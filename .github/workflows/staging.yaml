@@ -38,7 +38,7 @@ jobs:
             sudo chgrp -R www-data storage bootstrap/cache
             sudo chmod -R ug+rwx storage bootstrap/cache
       - name: Start Deployment On Staging Branh 
-        run: 
+        run: |
           (php artisan down) || true
           git pull origin staging
           if [ ! -f "vendor/autoload.php" ]; then
