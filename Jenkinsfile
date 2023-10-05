@@ -3,10 +3,12 @@ pipeline {
     stages {
         stage('Verify tooling') {
             steps {
-                ssh '''
-                    docker info
-                    docker version
-                '''
+                script {
+                    sh '''
+                        docker info
+                        docker version
+                    '''
+                }
             }
         }
         stage('Clear all running docker containers') {
